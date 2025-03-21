@@ -197,8 +197,14 @@ function getCountWeekendsInMonth(month, year) {
  * Date(2024, 0, 31) => 5
  * Date(2024, 1, 23) => 8
  */
-function getWeekNumberByDate(/* date */) {
-  throw new Error('Not implemented');
+function getWeekNumberByDate(date) {
+  const year = date.getFullYear();
+  const firstDateOfYear = new Date(year, 0, 1);
+  const firstDayOfYear = firstDateOfYear.getDay();
+  const daysCount = (date - firstDateOfYear) / (1000 * 60 * 60 * 24) + 1;
+
+  const diff = firstDayOfYear <= 4 ? firstDayOfYear - 1 : firstDayOfYear - 7;
+  return Math.ceil((daysCount + diff) / 7);
 }
 
 /**
@@ -227,8 +233,13 @@ function getNextFridayThe13th(/* date */) {
  * Date(2024, 5, 1) => 2
  * Date(2024, 10, 10) => 4
  */
-function getQuarter(/* date */) {
-  throw new Error('Not implemented');
+function getQuarter(date) {
+  const year = date.getFullYear();
+  if (Date.parse(date) > Date.parse(new Date(year, 9, 0))) return 4;
+  if (Date.parse(date) > Date.parse(new Date(year, 7, 0))) return 3;
+  if (Date.parse(date) > Date.parse(new Date(year, 4, 0))) return 2;
+  if (Date.parse(date) > Date.parse(new Date(year, 0, 0))) return 1;
+  return -1;
 }
 
 /**
